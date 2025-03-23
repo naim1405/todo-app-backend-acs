@@ -1,10 +1,11 @@
 import exppress from "express";
+import { authRoutes } from "./auth/auth.router.js";
 
 const router = exppress.Router();
 const moduleRoue = [
   {
-    path: "/",
-    route: "hi",
+    path: "/auth",
+    route: authRoutes,
   },
 ];
 
