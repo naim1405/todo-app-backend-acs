@@ -22,4 +22,10 @@ const registerUser = catchAsync(async (req, res, next) => {
   res.send(result);
 });
 
-export const authController = { logInUser, registerUser };
+const refreshToken = catchAsync(async (req, res, next) => {
+  const { refreshToken } = req.cookies;
+  const result = await authService.refreshToken(refreshToken);
+  res.send(result);
+});
+
+export const authController = { logInUser, registerUser, refreshToken };

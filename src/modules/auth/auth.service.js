@@ -59,8 +59,39 @@ const registerUser = async (payload) => {
 };
 
 const refreshToken = async (refreshToken) => {
-  console.log(refreshToken);
-  return "refrshed";
+  const isActive = await prisma.refresh_Token.findFirst({
+    where: {
+      token: refreshToken,
+    },
+  });
+  if (!isActive || !isActive.isActive) {
+    throw new Error("Expired Refresh Token");
+  }
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtUtils.verifyToken(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET,
+    );
+  } catch (err) {
+    throw new Error("Invalid Refresh Token");
+  }
+  const { id } = verifiedToken;
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!isUserExist) {
+    throw new Error("User doesn't exists!");
+  }
+
+  const newAccessToken = jwtUtils.generateToken(
+    { id: id },
+    process.env.JWT_ACCESS_SECRET,
+    "15m",
+  );
+  return { success: true, accessToken: newAccessToken };
 };
 
 export const authService = { logInUser, registerUser, refreshToken };

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { routes } from "./modules/routes.js";
 import { CustomError } from "./helper/customError.js";
 import globalErrorHandler from "./middleware/globalErrorHandler.js";
@@ -8,6 +9,7 @@ const app = express();
 const router = express.Router();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 app.use(router);
