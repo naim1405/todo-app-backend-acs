@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Refresh_Token {
+  id       String  @id @default(uuid())
+  token    String
+  isActive Boolean
+}
+
 model User {
   id       String @id @default(uuid())
   name     String

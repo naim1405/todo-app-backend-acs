@@ -32,6 +32,15 @@ const logInUser = async (payload) => {
     process.env.JWT_REFRESH_SECRET,
     "30d",
   );
+  const storeResult = await prisma.refresh_Token.create({
+    data: {
+      token: refreshToken,
+      isActive: true,
+    },
+  });
+  if (!storeResult) {
+    throw new Error("Unknown Error");
+  }
   const result = {
     success: true,
     accessToken: accessToken,
@@ -49,4 +58,9 @@ const registerUser = async (payload) => {
   return result;
 };
 
-export const authService = { logInUser, registerUser };
+const refreshToken = async (refreshToken) => {
+  console.log(refreshToken);
+  return "refrshed";
+};
+
+export const authService = { logInUser, registerUser, refreshToken };
