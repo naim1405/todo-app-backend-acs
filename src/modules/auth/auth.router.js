@@ -9,5 +9,6 @@ router.get("/", (req, res) => {
 router.post("/login", authController.logInUser);
 router.post("/register", authController.registerUser);
 router.post("/refresh-token", authController.refreshToken);
+router.post("/logout", authController.logOutUser);
 
 export const authRoutes = router;

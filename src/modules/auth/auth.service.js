@@ -1,5 +1,4 @@
 import { AuthUtils } from "../../helper/bcryptHelper.js";
-import { CustomError } from "../../helper/customError.js";
 import { jwtUtils } from "../../helper/jwtHelper.js";
 import prisma from "../../helper/prisma.js";
 
@@ -94,4 +93,21 @@ const refreshToken = async (refreshToken) => {
   return { success: true, accessToken: newAccessToken };
 };
 
-export const authService = { logInUser, registerUser, refreshToken };
+const logOutUser = async (refreshToken) => {
+  const isRemoved = await prisma.refresh_Token.updateMany({
+    where: {
+      token: refreshToken,
+    },
+    data: {
+      isActive: false,
+    },
+  });
+  return { success: true, message: "User Logged Out Successfully!" };
+};
+
+export const authService = {
+  logInUser,
+  registerUser,
+  refreshToken,
+  logOutUser,
+};

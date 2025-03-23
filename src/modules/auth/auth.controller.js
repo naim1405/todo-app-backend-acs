@@ -27,5 +27,21 @@ const refreshToken = catchAsync(async (req, res, next) => {
   const result = await authService.refreshToken(refreshToken);
   res.send(result);
 });
+const logOutUser = catchAsync(async (req, res, next) => {
+  const { refreshToken } = req.cookies;
+  const result = await authService.logOutUser(refreshToken);
+  res.clearCookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Strict",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
+  res.send(result);
+});
 
-export const authController = { logInUser, registerUser, refreshToken };
+export const authController = {
+  logInUser,
+  registerUser,
+  refreshToken,
+  logOutUser,
+};
