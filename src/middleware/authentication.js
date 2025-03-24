@@ -1,8 +1,8 @@
-import { jwtUtils } from "../helper/jwtHelper";
+import { jwtUtils } from "../helper/jwtHelper.js";
 
 const authenticate = async (req, res, next) => {
   try {
-    const token = req.headers.authorizaton;
+    const token = req.headers.authorization;
     if (!token) {
       throw new Error("Unauthorized");
     }
