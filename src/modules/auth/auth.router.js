@@ -4,10 +4,6 @@ import validateRequest from "../../middleware/validateRequest.js";
 import { userValidationSchema } from "./auth.validation.js";
 
 const router = express.Router();
-router.get("/", (req, res) => {
-  res.send("auth working");
-});
-
 router.post(
   "/login",
   validateRequest(userValidationSchema.userLoginSchema),
