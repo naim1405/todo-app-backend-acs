@@ -30,7 +30,8 @@ model User {
 model todo {
   id     String @id @default(uuid())
   title  String
-  detail String
+  details String
+  isDone Boolean
   userId String
   user   User   @relation(fields: [userId], references: [id])
 }
